@@ -1,18 +1,17 @@
 package visual_interfaces.web
 
 import io.javalin.Context
-import functionality.AppStateFunctions
 import visual_interfaces.web.htmlComponents.SimpleHTML
 import visual_interfaces.web.htmlComponents.componentClasses
 import visual_interfaces.web.htmlComponents.setGlobalStyles
 
-object HomeScreenRenderer {
+object HTMLPageRenderer {
     
     enum class FormParam(val id: String) {
         USER_EMAIL_TEXT_INPUT("userEmailTextInput")
     }
     
-    fun AppStateFunctions.renderResponseTo(context: Context) {
+    fun renderHomePageTo(context: Context) {
         val rawHtml = with(SimpleHTML) {
             html {
                 // Page setup (style, meta, etc.)
@@ -32,7 +31,7 @@ object HomeScreenRenderer {
         context.setTextResult(rawHtml)
     }
     
-    fun AppStateFunctions.renderAboutPageTo(context: Context) {
+    fun renderAboutPageTo(context: Context) {
         val rawHtml = with(SimpleHTML) {
             html {
                 // Page setup (style, meta, etc.)

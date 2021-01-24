@@ -2,11 +2,7 @@ package visual_interfaces.web.javalinRouting
 
 sealed class Route(name: String, val method: String) {
     companion object {
-        const val port: String = IPHelper.preferredPort
-        val host: String = IPHelper.localNetworkIp
-        val protocol: String = IPHelper.protocol
-        val root: String = "$protocol://$host:$port"
-        
+        val root: String = IPHelper.root
         val startupRouteSet = setOf(
             Home, About
         )

@@ -3,12 +3,12 @@ package visual_interfaces.web.javalinRouting
 import io.javalin.Context
 import org.joda.time.DateTime
 import transfomers.DefaultDateParsingSingleton.YearMonthDayFormatting.parseToDate
-import visual_interfaces.web.HomeScreenRenderer
+import visual_interfaces.web.HTMLPageRenderer
 
 typealias NotANumber = NumberFormatException
 
 object FormInputHandler {
-    fun Context.formDouble(param: HomeScreenRenderer.FormParam): Double? {
+    fun Context.formDouble(param: HTMLPageRenderer.FormParam): Double? {
         return try {
             formParam(param.id)?.toDouble()
         } catch (badInput: NotANumber) {
@@ -17,7 +17,7 @@ object FormInputHandler {
         }
     }
     
-    fun Context.formInt(param: HomeScreenRenderer.FormParam): Int? {
+    fun Context.formInt(param: HTMLPageRenderer.FormParam): Int? {
         return try {
             formParam(param.id)?.toInt()
         } catch (badInput: NotANumber) {
@@ -26,13 +26,13 @@ object FormInputHandler {
         }
     }
     
-    fun Context.formString(param: HomeScreenRenderer.FormParam): String =
+    fun Context.formString(param: HTMLPageRenderer.FormParam): String =
         formParam(param.id) ?: ""
     
-    fun Context.isChecked(param: HomeScreenRenderer.FormParam): Boolean =
+    fun Context.isChecked(param: HTMLPageRenderer.FormParam): Boolean =
         (formParam(param.id) ?: "") == param.id
     
-    fun Context.tryFormStringToDate(param: HomeScreenRenderer.FormParam): DateTime? =
+    fun Context.tryFormStringToDate(param: HTMLPageRenderer.FormParam): DateTime? =
         with(formString(param)) {
             (parseAsFormattedDate() ?: parseAsEpochLong()).also {
                 if (it == null) {

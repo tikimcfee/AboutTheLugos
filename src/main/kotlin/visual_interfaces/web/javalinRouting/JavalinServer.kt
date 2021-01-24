@@ -4,29 +4,30 @@ import functionality.AppStateFunctions
 import io.javalin.Javalin
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.server.ServerConnector
-import visual_interfaces.web.HomeScreenRenderer.renderResponseTo
+import visual_interfaces.web.HTMLPageRenderer.renderAboutPageTo
+import visual_interfaces.web.HTMLPageRenderer.renderHomePageTo
 
 class JavalinServer {
     
     private val enableDebugging = false
-    private val defaultPort = 7000
     
     private val server: Server by lazy {
         Server().apply {
-            connectors = arrayOf(ServerConnector(this).apply {
-                host = Route.host
-                port = Route.port.toInt()
-            })
+            val defaultConnector = ServerConnector(this).apply {
+                host = IPHelper.localNetworkIp
+                port = IPHelper.preferredPort
+            }
+            connectors = arrayOf(defaultConnector)
         }
     }
     
-    private val app: Javalin by lazy {
+    internal val app: Javalin by lazy {
         Javalin.create()
             .apply { if (enableDebugging) enableDebugLogging() }
             .server { server }
     }
     
-    private val runtimeState: AppStateFunctions by lazy {
+    internal val runtimeState: AppStateFunctions by lazy {
         AppStateFunctions(
             // runtime app data class go here
         ).apply {
@@ -35,23 +36,23 @@ class JavalinServer {
     }
     
     fun start() {
-        app.start(defaultPort)
+        app.start(IPHelper.preferredPort)
         bindRoutes()
     }
-    
-    private fun bindRoutes() {
-        Route.startupRouteSet.forEach { route ->
-            when (route) {
-                Route.Home -> app.get(route.name) {
-                    runtimeState.renderResponseTo(it)
-                }
-                Route.About -> app.get(route.name) {
-                    runtimeState.renderResponseTo(it)
-                }
-            }.run {
-                // `run` enforces `when` compile time check for a known enum
-                println("## Route [$route] loaded")
+}
+
+private fun JavalinServer.bindRoutes() {
+    Route.startupRouteSet.forEach { route ->
+        when (route) {
+            Route.Home -> app.get(route.name) {
+                renderHomePageTo(it)
             }
+            Route.About -> app.get(route.name) {
+                renderAboutPageTo(it)
+            }
+        }.run {
+            // `run` enforces `when` compile time check for a known enum
+            println("## Route [$route] loaded")
         }
     }
 }
