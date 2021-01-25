@@ -47,6 +47,7 @@ object SimpleHTML {
     class Label : Tag("label")
     class Input : Tag("input")
     class Button : Tag("button")
+    class Image : Tag("image")
     
     class Select : Tag("select")
     class Option(value: String) : Tag("option") {
@@ -189,9 +190,27 @@ object SimpleHTML {
     fun Tag.div(init: Div.() -> Unit) =
         initTag(Div(), init)
     
+    fun Tag.image(init: Image.() -> Unit) =
+        initTag(Image(), init)
+    
+    // ------------------------------------
+    // Images
+    // ------------------------------------
+    
+    fun Tag.localImage(
+        imageName: String,
+        imageAlt: String,
+        setImageAttributes: Image.() -> Unit
+    ) = image {
+        setAttribute("src", "/images/${imageName}")
+        setAttribute("alt", imageAlt)
+        setImageAttributes()
+    }
+    
     // ------------------------------------
     // Buttons
     // ------------------------------------
+    
     fun Tag.hiddenInputButton(
         text: String,
         buttonInput: String,

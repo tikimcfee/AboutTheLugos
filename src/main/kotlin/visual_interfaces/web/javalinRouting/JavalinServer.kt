@@ -7,6 +7,10 @@ import org.eclipse.jetty.server.ServerConnector
 import visual_interfaces.web.HTMLPageRenderer.renderAboutPageTo
 import visual_interfaces.web.HTMLPageRenderer.renderHomePageTo
 
+internal object ServerPaths {
+    const val publicResourcePath = "/public"
+}
+
 class JavalinServer {
     
     private val enableDebugging = false
@@ -23,7 +27,10 @@ class JavalinServer {
     
     internal val app: Javalin by lazy {
         Javalin.create()
-            .apply { if (enableDebugging) enableDebugLogging() }
+            .apply {
+                if (enableDebugging) enableDebugLogging()
+                enableStaticFiles(ServerPaths.publicResourcePath)
+            }
             .server { server }
     }
     
@@ -35,24 +42,24 @@ class JavalinServer {
         }
     }
     
-    fun start() {
-        app.start(IPHelper.preferredPort)
-        bindRoutes()
+    internal fun bindRoutes() {
+        Route.startupRouteSet.forEach { route ->
+            when (route) {
+                Route.Home -> app.get(route.name) {
+                    renderHomePageTo(it)
+                }
+                Route.About -> app.get(route.name) {
+                    renderAboutPageTo(it)
+                }
+            }.run {
+                // `run` enforces `when` compile time check for a known enum
+                println("## Route [$route] loaded")
+            }
+        }
     }
 }
 
-private fun JavalinServer.bindRoutes() {
-    Route.startupRouteSet.forEach { route ->
-        when (route) {
-            Route.Home -> app.get(route.name) {
-                renderHomePageTo(it)
-            }
-            Route.About -> app.get(route.name) {
-                renderAboutPageTo(it)
-            }
-        }.run {
-            // `run` enforces `when` compile time check for a known enum
-            println("## Route [$route] loaded")
-        }
-    }
+fun JavalinServer.start() {
+    app.start(IPHelper.preferredPort)
+    bindRoutes()
 }

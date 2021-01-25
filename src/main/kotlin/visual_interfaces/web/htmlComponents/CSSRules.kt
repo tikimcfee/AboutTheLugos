@@ -2,12 +2,14 @@ package visual_interfaces.web.htmlComponents
 
 import kotlinx.css.*
 import visual_interfaces.web.htmlComponents.SimpleHTML.setStyles
+import visual_interfaces.web.htmlComponents.componentClasses.mainPage.devImage
 import visual_interfaces.web.htmlComponents.componentClasses.mainPage.mainBodyWrapper
 
 object componentClasses {
     
     object mainPage {
         val mainBodyWrapper = "main-page-body-wrapper"
+        val devImage = "main-page-dev-image"
     }
     
 }
@@ -38,6 +40,11 @@ fun SimpleHTML.Html.setGlobalStyles() {
         addClass(mainBodyWrapper) {
             display = Display.flex
             flexWrap = FlexWrap.wrap
+        }
+        
+        addClass(devImage) {
+            borderRadius = 8.pt
+            width = 128.pt
         }
     }
 }

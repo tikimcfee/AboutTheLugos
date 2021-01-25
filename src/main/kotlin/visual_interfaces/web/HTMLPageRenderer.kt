@@ -23,6 +23,23 @@ object HTMLPageRenderer {
                     div {
                         setCssClasses(componentClasses.mainPage.mainBodyWrapper)
                         
+                        table {
+                            tr {
+                                td {
+                                    text("Hello, world! Thanks for visiting. I'll be bringing this up sooner or later. Maybe.")
+                                }
+                            }
+                            tr {
+                                td {
+                                    localImage(
+                                        "WhatAMug.jpg",
+                                        "A goofy image of the developer offering a fist bump while hunching with duckface."
+                                    ) {
+                                        setCssClasses(componentClasses.mainPage.devImage)
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
