@@ -7,7 +7,7 @@ import visual_interfaces.web.HTMLPageRenderer
 
 typealias NotANumber = NumberFormatException
 
-object FormInputHandler {
+object FormInputValidator {
     fun Context.formDouble(param: HTMLPageRenderer.FormParam): Double? {
         return try {
             formParam(param.id)?.toDouble()
