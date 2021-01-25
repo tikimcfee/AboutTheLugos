@@ -1,2 +1,2 @@
-rootProject.name = "JavalinTemplates"
+rootProject.name = "AboutTheLugos"
 

@@ -19,7 +19,3 @@ fun Command.executeWithStateFunctions(
     else -> { }
 }
 
-fun AppStateFunctions.restoreState() {
-    println("--- Restoring App State ---")
-    
-}
