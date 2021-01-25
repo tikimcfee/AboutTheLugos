@@ -26,12 +26,11 @@ class JavalinServer {
     }
     
     internal val app: Javalin by lazy {
-        Javalin.create()
-            .apply {
-                if (enableDebugging) enableDebugLogging()
-                enableStaticFiles(ServerPaths.publicResourcePath)
-            }
-            .server { server }
+        Javalin.create {
+            it.server { server }
+            it.addStaticFiles(ServerPaths.publicResourcePath)
+            if (enableDebugging) it.enableDevLogging()
+        }
     }
     
     internal val runtimeState: AppStateFunctions by lazy {

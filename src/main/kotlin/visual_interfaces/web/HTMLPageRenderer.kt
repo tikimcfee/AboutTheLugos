@@ -1,6 +1,6 @@
 package visual_interfaces.web
 
-import io.javalin.Context
+import io.javalin.http.Context
 import visual_interfaces.web.htmlComponents.SimpleHTML
 import visual_interfaces.web.htmlComponents.componentClasses
 import visual_interfaces.web.htmlComponents.setGlobalStyles

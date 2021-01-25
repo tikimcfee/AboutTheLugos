@@ -23,8 +23,8 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     
     // - Server -
-    implementation("io.javalin:javalin:2.7.0")
-    implementation("org.slf4j:slf4j-simple:1.7.25")
+    implementation("io.javalin:javalin:3.13.0")
+    implementation("org.slf4j:slf4j-simple:1.7.30")
     
     // Serialization and networking glue
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")

@@ -1,6 +1,6 @@
 package visual_interfaces.web.javalinRouting
 
-import io.javalin.Context
+import io.javalin.http.Context
 import org.joda.time.DateTime
 import transfomers.DefaultDateParsingSingleton.YearMonthDayFormatting.parseToDate
 import visual_interfaces.web.HTMLPageRenderer
