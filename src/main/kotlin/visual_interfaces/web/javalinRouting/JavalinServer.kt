@@ -4,8 +4,8 @@ import functionality.AppStateFunctions
 import io.javalin.Javalin
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.server.ServerConnector
-import visual_interfaces.web.HTMLPageRenderer.renderAboutPageTo
-import visual_interfaces.web.HTMLPageRenderer.renderHomePageTo
+import visual_interfaces.web.htmlPages.HTMLPageRenderer.renderAboutPageTo
+import visual_interfaces.web.htmlPages.HTMLPageRenderer.renderHomePageTo
 
 internal object ServerPaths {
     const val publicResourcePath = "/public"
@@ -44,6 +44,9 @@ class JavalinServer {
     internal fun bindRoutes() {
         Route.startupRouteSet.forEach { route ->
             when (route) {
+                Route.Root -> app.get(route.name) {
+                    it.redirect(Route.Home.name)
+                }
                 Route.Home -> app.get(route.name) {
                     renderHomePageTo(it)
                 }

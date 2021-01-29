@@ -1,6 +1,6 @@
 package visual_interfaces.web.htmlComponents
 
-import visual_interfaces.web.HTMLPageRenderer
+import visual_interfaces.web.htmlPages.HTMLPageRenderer
 import kotlinx.css.CSSBuilder
 import visual_interfaces.web.javalinRouting.Route
 
@@ -34,6 +34,7 @@ object SimpleHTML {
     class Table : Tag("table")
     class TR : Tag("tr")
     class TD : Tag("td")
+    class Paragraph: Tag("p")
     class Text(val text: String) : Tag("b") {
         override fun toString() = text
     }
@@ -48,6 +49,14 @@ object SimpleHTML {
     class Input : Tag("input")
     class Button : Tag("button")
     class Image : Tag("image")
+    class Anchor: Tag("a")
+
+    class Heading1: Tag("h1")
+    class Heading2: Tag("h2")
+    class Heading3: Tag("h3")
+    class Heading4: Tag("h4")
+    class Heading5: Tag("h5")
+    class Heading6: Tag("h6")
     
     class Select : Tag("select")
     class Option(value: String) : Tag("option") {
@@ -192,6 +201,43 @@ object SimpleHTML {
     
     fun Tag.image(init: Image.() -> Unit) =
         initTag(Image(), init)
+
+    fun Tag.anchor(init: Anchor.() -> Unit) =
+        initTag(Anchor(), init)
+
+    fun Tag.p(init: Paragraph.() -> Unit) =
+        initTag(Paragraph(), init)
+
+    fun Tag.h1(init: Heading1.() -> Unit) =
+        initTag(Heading1(), init)
+
+    fun Tag.h2(init: Heading2.() -> Unit) =
+        initTag(Heading2(), init)
+
+    fun Tag.h3(init: Heading3.() -> Unit) =
+        initTag(Heading3(), init)
+
+    fun Tag.h4(init: Heading4.() -> Unit) =
+        initTag(Heading4(), init)
+
+    fun Tag.h5(init: Heading5.() -> Unit) =
+        initTag(Heading5(), init)
+
+    fun Tag.h6(init: Heading6.() -> Unit) =
+        initTag(Heading6(), init)
+
+    // ------------------------------------
+    // Helper stuff
+    // ------------------------------------
+    fun Tag.link(
+        href: String,
+        linkText: String,
+        extra: (Anchor.() -> Unit)? = null
+    ) = anchor {
+        setAttribute("href", href)
+        text(linkText)
+        extra?.let { it() }
+    }
     
     // ------------------------------------
     // Images

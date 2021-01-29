@@ -4,13 +4,14 @@ sealed class Route(name: String, val method: String) {
     companion object {
         val root: String = IPHelper.root
         val startupRouteSet = setOf(
-            Home, About
+            Root, Home, About
         )
     }
     
     val path = "$root/$name"
     val name = "/$name"
     
-    object Home : Route("", "get")
+    object Root : Route("", "get")
+    object Home : Route("home", "get")
     object About : Route("about", "get")
 }

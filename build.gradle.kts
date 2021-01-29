@@ -36,7 +36,7 @@ dependencies {
     implementation("joda-time:joda-time:2.10.1")
     
     // - Web Tools : CSS -
-    implementation("org.jetbrains:kotlin-css:1.0.0-pre.141-kotlin-1.4.21")
+    implementation("org.jetbrains:kotlin-css:1.0.0-pre.144-kotlin-1.4.21")
 }
 
 application {
