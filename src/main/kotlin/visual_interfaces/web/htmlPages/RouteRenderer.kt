@@ -31,9 +31,6 @@ object RouteRenderer {
     }
 }
 
-private fun Context.renderHtml(html: Html) =
-   setTextResult(html.toString())
-
 private fun inSharedPageFrame(
     currentRoute: Route,
     builder: Html.() -> Unit
@@ -73,3 +70,6 @@ private fun Route.anchorSelectionClass(
 
 private fun Context.setTextResult(text: String) =
    header("Content-Type",  "text/html").result(text)
+
+private fun Context.renderHtml(html: Html) =
+   setTextResult(html.toString())

@@ -73,7 +73,6 @@ fun SimpleHTML.Html.setGlobalStyles() {
             left = 0.px
             backgroundColor = Color.black
             overflowX = hidden
-//            paddingTop = 20.px
         }
 
         addClass(staticNavigationBarAnchor) {
@@ -99,7 +98,6 @@ fun SimpleHTML.Html.setGlobalStyles() {
         // Body
         addClass(mainBodyWrapper) {
             marginTop = sidebarHeight
-            padding = "0px 10px"
         }
         
         addClass(devImage) {
