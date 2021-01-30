@@ -3,7 +3,7 @@ package visual_interfaces.web.htmlPages
 import io.javalin.http.Context
 import visual_interfaces.web.htmlComponents.SimpleHTML
 import visual_interfaces.web.htmlComponents.SimpleHTML.Html
-import visual_interfaces.web.htmlComponents.componentClasses.shared
+import visual_interfaces.web.htmlComponents.ComponentClasses.Shared
 import visual_interfaces.web.htmlComponents.setGlobalStyles
 import visual_interfaces.web.javalinRouting.Route
 
@@ -50,8 +50,8 @@ object HTMLPageRenderer {
 
     private fun Route.anchorSelectionClass(currentRoute: Route): String {
         return when (currentRoute) {
-            this -> shared.staticNavigationBarAnchorCurrent
-            else -> shared.staticNavigationBarAnchorOther
+            this -> Shared.staticNavigationBarAnchorCurrent
+            else -> Shared.staticNavigationBarAnchorOther
         }
     }
 
@@ -66,9 +66,9 @@ object HTMLPageRenderer {
 
                 body {
                     div {
-                        setCssClasses(shared.staticNavigationBar)
+                        setCssClasses(Shared.staticNavigationBar)
                         navigationRoutes.forEach {
-                            link(it.path, it.displayName).apply {
+                            link(it.path, it.displayName) {
                                 setCssClasses(it.anchorSelectionClass(currentRoute))
                             }
                         }

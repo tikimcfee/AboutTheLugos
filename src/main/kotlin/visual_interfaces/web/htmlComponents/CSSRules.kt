@@ -2,26 +2,25 @@ package visual_interfaces.web.htmlComponents
 
 
 import kotlinx.css.*
-import kotlinx.css.Display.block
 import kotlinx.css.Display.inlineBlock
+import kotlinx.css.Float
 import kotlinx.css.Overflow.hidden
 import kotlinx.css.Position.fixed
-import kotlinx.css.properties.TextDecoration
 import kotlinx.css.properties.TextDecoration.Companion.none
 import kotlinx.css.properties.TextDecorationLine
 import kotlinx.css.properties.textDecoration
-import visual_interfaces.web.htmlComponents.SimpleHTML.setAttribute
 import visual_interfaces.web.htmlComponents.SimpleHTML.setStyles
-import visual_interfaces.web.htmlComponents.componentClasses.shared.staticNavigationBar
-import visual_interfaces.web.htmlComponents.componentClasses.mainPage.devImage
-import visual_interfaces.web.htmlComponents.componentClasses.mainPage.mainBodyWrapper
-import visual_interfaces.web.htmlComponents.componentClasses.shared.staticNavigationBarAnchor
-import visual_interfaces.web.htmlComponents.componentClasses.shared.staticNavigationBarAnchorCurrent
-import visual_interfaces.web.htmlComponents.componentClasses.shared.staticNavigationBarAnchorOther
-import visual_interfaces.web.htmlComponents.componentClasses.shared.staticSideBarAnchorHover
+import visual_interfaces.web.htmlComponents.ComponentClasses.Shared.staticNavigationBar
+import visual_interfaces.web.htmlComponents.ComponentClasses.AboutPage.devImage
+import visual_interfaces.web.htmlComponents.ComponentClasses.AboutPage.devImageWrapper
+import visual_interfaces.web.htmlComponents.ComponentClasses.MainPage.mainBodyWrapper
+import visual_interfaces.web.htmlComponents.ComponentClasses.Shared.staticNavigationBarAnchor
+import visual_interfaces.web.htmlComponents.ComponentClasses.Shared.staticNavigationBarAnchorCurrent
+import visual_interfaces.web.htmlComponents.ComponentClasses.Shared.staticNavigationBarAnchorOther
+import visual_interfaces.web.htmlComponents.ComponentClasses.Shared.staticSideBarAnchorHover
 
-object componentClasses {
-    object shared {
+object ComponentClasses {
+    object Shared {
         val staticNavigationBar = "static-side-bar"
         val staticNavigationBarAnchor = "static-side-bar a"
         val staticNavigationBarAnchorCurrent = "static-side-bar-current"
@@ -29,8 +28,12 @@ object componentClasses {
         val staticSideBarAnchorHover = "static-side-bar a:hover"
     }
 
-    object mainPage {
+    object MainPage {
         val mainBodyWrapper = "main-page-body-wrapper"
+    }
+
+    object AboutPage {
+        val devImageWrapper = "about-page-image-wrapper"
         val devImage = "main-page-dev-image"
     }
 }
@@ -49,7 +52,6 @@ fun SimpleHTML.Html.setGlobalStyles() {
         rule(NamedRules.clearfix) {
             content = QuotedString("")
             clear = Clear.both
-//            display = Display.table
         }
     
         // -- Media --
@@ -58,7 +60,7 @@ fun SimpleHTML.Html.setGlobalStyles() {
         }
 
         // Sidebar
-        val sidebarHeight = 64.px
+        val sidebarHeight = 56.px
 
         addClass(staticNavigationBar) {
             height = sidebarHeight
@@ -74,7 +76,7 @@ fun SimpleHTML.Html.setGlobalStyles() {
 
         addClass(staticNavigationBarAnchor) {
             padding = "16px 8px 16px 16px" // t, r, b, l
-            fontSize = 25.px
+            fontSize = 20.px
             color = Color.gray
             display = inlineBlock
         }
@@ -101,6 +103,11 @@ fun SimpleHTML.Html.setGlobalStyles() {
         addClass(devImage) {
             borderRadius = 8.pt
             width = 128.pt
+        }
+
+        // About Page ;; Todo: Split these into separate groups; setAboutPageStyles()
+        addClass(devImageWrapper) {
+            float = Float.right
         }
     }
 }
