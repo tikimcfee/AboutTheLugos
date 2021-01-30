@@ -4,8 +4,8 @@ import functionality.AppStateFunctions
 import io.javalin.Javalin
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.server.ServerConnector
-import visual_interfaces.web.htmlPages.HTMLPageRenderer.renderAboutPageTo
-import visual_interfaces.web.htmlPages.HTMLPageRenderer.renderHomePageTo
+import visual_interfaces.web.htmlPages.RouteRenderer.renderAboutPageTo
+import visual_interfaces.web.htmlPages.RouteRenderer.renderHomePageTo
 
 internal object ServerPaths {
     const val publicResourcePath = "/public"

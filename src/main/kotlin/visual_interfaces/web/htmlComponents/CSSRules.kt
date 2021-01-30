@@ -2,8 +2,10 @@ package visual_interfaces.web.htmlComponents
 
 
 import kotlinx.css.*
+import kotlinx.css.Display.block
 import kotlinx.css.Display.inlineBlock
 import kotlinx.css.Float
+import kotlinx.css.Float.left
 import kotlinx.css.Overflow.hidden
 import kotlinx.css.Position.fixed
 import kotlinx.css.properties.TextDecoration.Companion.none
@@ -103,6 +105,9 @@ fun SimpleHTML.Html.setGlobalStyles() {
         addClass(devImage) {
             borderRadius = 8.pt
             width = 128.pt
+            display = block
+            float = Float.left
+            margin = "8px 8px 8px 0px"
         }
 
         // About Page ;; Todo: Split these into separate groups; setAboutPageStyles()

@@ -1,7 +1,7 @@
 package visual_interfaces.web.htmlComponents
 
 import kotlinx.css.CSSBuilder
-import visual_interfaces.web.htmlPages.HTMLPageRenderer
+import visual_interfaces.web.htmlPages.FormParam
 import visual_interfaces.web.javalinRouting.Route
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")
@@ -105,7 +105,7 @@ object SimpleHTML {
     // ------------------------------------
     fun Tag.inputTag(
         labelText: String,
-        forAttr: HTMLPageRenderer.FormParam,
+        forAttr: FormParam,
         input: Input.() -> Unit = {}
     ) = initTag(Input()) {
         setAttribute("name", forAttr.id)
@@ -121,7 +121,7 @@ object SimpleHTML {
         initTag(Option(value), init)
     
     fun Tag.selectionDropdown(
-        forAttr: HTMLPageRenderer.FormParam,
+        forAttr: FormParam,
         initSelection: Select.() -> Unit,
         initOption: Option.() -> Unit,
         vararg selections: String
@@ -143,7 +143,7 @@ object SimpleHTML {
     
     fun Tag.newCheckbox(
         labelText: String,
-        forAttr: HTMLPageRenderer.FormParam,
+        forAttr: FormParam,
         input: ((Input) -> Unit) = {}
     ) {
         initTag(Input()) {
@@ -157,7 +157,7 @@ object SimpleHTML {
     }
     
     fun Form.hiddenInput(
-        forAttr: HTMLPageRenderer.FormParam,
+        forAttr: FormParam,
         input: ((Input) -> Unit) = {}
     ) {
         //<input type = "hidden" name = "topic" value = "something" />
@@ -260,7 +260,7 @@ object SimpleHTML {
     fun Tag.hiddenInputButton(
         text: String,
         buttonInput: String,
-        formParam: HTMLPageRenderer.FormParam
+        formParam: FormParam
     ) = button {
         text(text)
         setAttribute("value", buttonInput)
