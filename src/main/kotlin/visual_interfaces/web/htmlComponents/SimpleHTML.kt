@@ -1,7 +1,7 @@
 package visual_interfaces.web.htmlComponents
 
-import visual_interfaces.web.htmlPages.HTMLPageRenderer
 import kotlinx.css.CSSBuilder
+import visual_interfaces.web.htmlPages.HTMLPageRenderer
 import visual_interfaces.web.javalinRouting.Route
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")
@@ -170,7 +170,7 @@ object SimpleHTML {
     
     fun Form.addActionAndMethod(route: Route) {
         with(SimpleHTML) {
-            this@addActionAndMethod.setAttribute("action", route.path)
+            this@addActionAndMethod.setAttribute("action", route.absolutePath)
             this@addActionAndMethod.setAttribute("method", route.method)
         }
     }

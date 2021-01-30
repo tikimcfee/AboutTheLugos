@@ -5,11 +5,16 @@ import visual_interfaces.web.htmlComponents.SimpleHTML
 import visual_interfaces.web.htmlComponents.SimpleHTML.Html
 import visual_interfaces.web.htmlComponents.componentClasses.shared
 import visual_interfaces.web.htmlComponents.setGlobalStyles
+import visual_interfaces.web.javalinRouting.Route
 
 object HTMLPageRenderer {
 
+    enum class FormParam(val id: String) {
+        USER_EMAIL_TEXT_INPUT("userEmailTextInput")
+    }
+
     fun renderHomePageTo(context: Context) {
-        val rawHtml = inSharedPageFrame {
+        val rawHtml = inSharedPageFrame(Route.Home) {
             makeHomePageContent()
         }.toString()
         
@@ -17,7 +22,7 @@ object HTMLPageRenderer {
     }
     
     fun renderAboutPageTo(context: Context) {
-        val rawHtml = inSharedPageFrame {
+        val rawHtml = inSharedPageFrame(Route.About) {
             makeAboutPageContent()
         }.toString()
         
@@ -29,7 +34,31 @@ object HTMLPageRenderer {
             .result(text)
     }
 
-    private fun inSharedPageFrame(builder: Html.() -> Unit): Html {
+    private val navigationRoutes: Array<Route> by lazy {
+        arrayOf(
+           Route.Home,
+           Route.About
+        )
+    }
+
+    private val Route.displayName: String
+        get() { return when (this) {
+            Route.Root -> "Magic"
+            Route.Home -> "Home"
+            Route.About -> "About"
+        }}
+
+    private fun Route.anchorSelectionClass(currentRoute: Route): String {
+        return when (currentRoute) {
+            this -> shared.staticNavigationBarAnchorCurrent
+            else -> shared.staticNavigationBarAnchorOther
+        }
+    }
+
+    private fun inSharedPageFrame(
+        currentRoute: Route,
+        builder: Html.() -> Unit
+    ): Html {
         return with(SimpleHTML) {
             html {
                 setMetaData()
@@ -37,11 +66,12 @@ object HTMLPageRenderer {
 
                 body {
                     div {
-                        setCssClasses(shared.staticSideBar)
-                        link("home", "Words")
-                        link("about", "About")
-//                        link("devhistory.html", "Devin'")
-//                        link("coolstuff.html", "Cool Stuff")
+                        setCssClasses(shared.staticNavigationBar)
+                        navigationRoutes.forEach {
+                            link(it.path, it.displayName).apply {
+                                setCssClasses(it.anchorSelectionClass(currentRoute))
+                            }
+                        }
                     }
 
                     div {

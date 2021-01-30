@@ -42,15 +42,15 @@ class JavalinServer {
     }
     
     internal fun bindRoutes() {
-        Route.startupRouteSet.forEach { route ->
+        Route.values().forEach { route ->
             when (route) {
-                Route.Root -> app.get(route.name) {
-                    it.redirect(Route.Home.name)
+                Route.Root -> app.get(route.path) {
+                    it.redirect(Route.Home.path)
                 }
-                Route.Home -> app.get(route.name) {
+                Route.Home -> app.get(route.path) {
                     renderHomePageTo(it)
                 }
-                Route.About -> app.get(route.name) {
+                Route.About -> app.get(route.path) {
                     renderAboutPageTo(it)
                 }
             }.run {
