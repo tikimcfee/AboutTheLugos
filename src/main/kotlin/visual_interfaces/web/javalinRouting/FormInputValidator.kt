@@ -1,4 +1,3 @@
-
 package visual_interfaces.web.javalinRouting
 
 import io.javalin.http.Context

@@ -4,8 +4,7 @@ import functionality.AppStateFunctions
 import io.javalin.Javalin
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.server.ServerConnector
-import visual_interfaces.web.htmlPages.RouteRenderer.renderAboutPageTo
-import visual_interfaces.web.htmlPages.RouteRenderer.renderHomePageTo
+import visual_interfaces.web.htmlPages.RouteRenderer
 
 internal object ServerPaths {
     const val publicResourcePath = "/public"
@@ -47,11 +46,10 @@ class JavalinServer {
                 Route.Root -> app.get(route.path) {
                     it.redirect(Route.Home.path)
                 }
-                Route.Home -> app.get(route.path) {
-                    renderHomePageTo(it)
-                }
-                Route.About -> app.get(route.path) {
-                    renderAboutPageTo(it)
+                else -> app.get(route.path) {
+                    with(RouteRenderer) {
+                        it.renderPageAt(route)
+                    }
                 }
             }.run {
                 // `run` enforces `when` compile time check for a known enum

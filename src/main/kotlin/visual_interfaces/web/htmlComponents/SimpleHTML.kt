@@ -73,18 +73,15 @@ object SimpleHTML {
     
     fun Html.head(init: Head.() -> Unit) =
         initTag(Head(), init)
-    
-    fun Html.style(init: Style.() -> Unit) =
-        initTag(Style(), init)
-    
+
     fun Html.meta(init: Meta.() -> Unit) =
         initTag(Meta(), init)
     
     fun Html.body(init: Body.() -> Unit) =
         initTag(Body(), init)
-    
-    fun Html.center(init: Center.() -> Unit) =
-        initTag(Center(), init)
+
+    fun Head.style(init: Style.() -> Unit) =
+       initTag(Style(), init)
     
     
     // ------------------------------------
@@ -266,27 +263,5 @@ object SimpleHTML {
         setAttribute("value", buttonInput)
         setAttribute("name", formParam.id)
         setAttribute("form", formParam.name)
-    }
-    
-    // ------------------------------------
-    // CSS
-    // ------------------------------------
-    fun Html.setStyles(receiver: CSSBuilder.() -> Unit) {
-        head {
-            style {
-                text(
-                    CSSBuilder().apply(receiver).toString()
-                )
-            }
-        }
-    }
-    
-    fun Html.setMetaData() {
-        meta {
-            // <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            setAttribute("name", "viewport")
-            setAttribute("content", "width=device-width, initial-scale=1.0")
-            setAttribute("charset", "UTF-8")
-        }
     }
 }
