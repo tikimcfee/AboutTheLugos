@@ -1,10 +1,42 @@
 package visual_interfaces.web.htmlPages
 
-import kotlinx.css.*
+import kotlinx.css.CSSBuilder
+import kotlinx.css.Clear
+import kotlinx.css.Color
+import kotlinx.css.Display
+import kotlinx.css.LinearDimension.Companion.auto
+import kotlinx.css.Overflow
+import kotlinx.css.Position
+import kotlinx.css.QuotedString
+import kotlinx.css.backgroundColor
+import kotlinx.css.clear
+import kotlinx.css.color
+import kotlinx.css.content
+import kotlinx.css.display
+import kotlinx.css.fontSize
+import kotlinx.css.height
+import kotlinx.css.left
+import kotlinx.css.marginLeft
+import kotlinx.css.marginRight
+import kotlinx.css.marginTop
+import kotlinx.css.overflowX
+import kotlinx.css.padding
+import kotlinx.css.pct
+import kotlinx.css.position
 import kotlinx.css.properties.TextDecoration
 import kotlinx.css.properties.TextDecorationLine
 import kotlinx.css.properties.textDecoration
-import visual_interfaces.web.htmlComponents.ComponentClasses
+import kotlinx.css.px
+import kotlinx.css.textDecoration
+import kotlinx.css.top
+import kotlinx.css.width
+import kotlinx.css.zIndex
+import visual_interfaces.web.htmlComponents.ComponentClasses.MainPage.mainBodyWrapper
+import visual_interfaces.web.htmlComponents.ComponentClasses.Shared.staticNavigationBar
+import visual_interfaces.web.htmlComponents.ComponentClasses.Shared.staticNavigationBarAnchor
+import visual_interfaces.web.htmlComponents.ComponentClasses.Shared.staticNavigationBarAnchorCurrent
+import visual_interfaces.web.htmlComponents.ComponentClasses.Shared.staticNavigationBarAnchorOther
+import visual_interfaces.web.htmlComponents.ComponentClasses.Shared.staticSideBarAnchorHover
 import visual_interfaces.web.htmlComponents.NamedRules
 import visual_interfaces.web.htmlComponents.addClass
 
@@ -14,15 +46,10 @@ fun CSSBuilder.globalStyleBuilder() {
         clear = Clear.both
     }
 
-    // -- Media --
-    rule("@media only screen and (max-width: 800px)") {
-
-    }
-
     // Sidebar
     val sidebarHeight = 56.px
 
-    addClass(ComponentClasses.Shared.staticNavigationBar) {
+    addClass(staticNavigationBar) {
         height = sidebarHeight
         width = 100.pct
         position = Position.fixed
@@ -33,28 +60,38 @@ fun CSSBuilder.globalStyleBuilder() {
         overflowX = Overflow.hidden
     }
 
-    addClass(ComponentClasses.Shared.staticNavigationBarAnchor) {
+    addClass(staticNavigationBarAnchor) {
         padding = "16px 8px 16px 16px" // t, r, b, l
         fontSize = 20.px
         color = Color.gray
         display = Display.inlineBlock
     }
 
-    addClass(ComponentClasses.Shared.staticNavigationBarAnchorCurrent) {
+    addClass(staticNavigationBarAnchorCurrent) {
         textDecoration(TextDecorationLine.underline)
         put("text-underline-offset", "4px") // no built-in support for this yet
     }
 
-    addClass(ComponentClasses.Shared.staticNavigationBarAnchorOther) {
+    addClass(staticNavigationBarAnchorOther) {
         textDecoration = TextDecoration.none
     }
 
-    addClass(ComponentClasses.Shared.staticSideBarAnchorHover) {
+    addClass(staticSideBarAnchorHover) {
         color = Color.lightGray
     }
 
     // Body
-    addClass(ComponentClasses.MainPage.mainBodyWrapper) {
-        marginTop = sidebarHeight
+    addClass(mainBodyWrapper) {
+        marginTop = sidebarHeight + 8.px
+        marginLeft = auto
+        marginRight = auto
+        width = 87.pct
+    }
+
+    // -- Media --
+    rule("@media only screen and (max-width: 800px)") {
+        addClass(mainBodyWrapper) {
+            width = 95.pct
+        }
     }
 }

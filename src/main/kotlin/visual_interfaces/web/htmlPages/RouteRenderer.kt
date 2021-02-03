@@ -10,6 +10,8 @@ import visual_interfaces.web.htmlComponents.SimpleHTML.setAttribute
 import visual_interfaces.web.htmlComponents.Tag
 import visual_interfaces.web.htmlPages.staticPages.aboutPageStyles
 import visual_interfaces.web.htmlPages.staticPages.makeAboutPageContent
+import visual_interfaces.web.htmlPages.staticPages.makeArticleContent
+import visual_interfaces.web.htmlPages.staticPages.makeArticleListContent
 import visual_interfaces.web.htmlPages.staticPages.makeHomePageContent
 import visual_interfaces.web.javalinRouting.Route
 
@@ -17,7 +19,8 @@ object RouteRenderer {
 
     internal val navigationRoutes by lazy { arrayOf(
        Route.Home,
-       Route.About
+       Route.About,
+       Route.ArticleList
     ) }
 
     fun Context.renderPageAt(route: Route) {
@@ -27,31 +30,16 @@ object RouteRenderer {
                    Route.Root -> { }
                    Route.Home -> makeHomePageContent()
                    Route.About -> makeAboutPageContent()
+                   Route.ArticleList -> {
+                       makeArticleListContent()
+                   }
+                   Route.SingleArticle -> {
+                       makeArticleContent(this@renderPageAt)
+                   }
                }
            }
         )
     }
-}
-
-private val Route.styleBuilder: CSSBuilder.() -> Unit
-    get() = when (this) {
-        Route.Root -> { {} } // empty css builder
-        Route.Home -> { {} } // empty css builder
-        Route.About -> aboutPageStyles
-    }
-
-private val Route.displayName: String
-    get() = when (this) {
-        Route.Root -> "Magic"
-        Route.Home -> "Home"
-        Route.About -> "About"
-    }
-
-private fun Route.anchorSelectionClass(
-    currentRoute: Route
-) = when (currentRoute) {
-    this -> Shared.staticNavigationBarAnchorCurrent
-    else -> Shared.staticNavigationBarAnchorOther
 }
 
 private fun inSharedPageFrame(
@@ -94,6 +82,31 @@ fun Html.setMetaData() {
         setAttribute("content", "width=device-width, initial-scale=1.0")
         setAttribute("charset", "UTF-8")
     }
+}
+
+private val Route.styleBuilder: CSSBuilder.() -> Unit
+    get() = when (this) {
+        Route.Root -> { {} } // empty css builder
+        Route.Home -> { {} } // empty css builder
+        Route.ArticleList -> { {} } // empty css builder
+        Route.About -> aboutPageStyles
+        Route.SingleArticle -> { {} } // empty css builder
+    }
+
+private val Route.displayName: String
+    get() = when (this) {
+        Route.Home -> "Home"
+        Route.About -> "About"
+        Route.ArticleList -> "Articles"
+        Route.SingleArticle -> "Single Article"
+        Route.Root -> "Root"
+    }
+
+private fun Route.anchorSelectionClass(
+    currentRoute: Route
+) = when (currentRoute) {
+    this -> Shared.staticNavigationBarAnchorCurrent
+    else -> Shared.staticNavigationBarAnchorOther
 }
 
 private fun Context.setTextResult(text: String) =

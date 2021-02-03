@@ -1,14 +1,10 @@
 package visual_interfaces.web.javalinRouting
 
-import functionality.AppStateFunctions
 import io.javalin.Javalin
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.server.ServerConnector
 import visual_interfaces.web.htmlPages.RouteRenderer
-
-internal object ServerPaths {
-    const val publicResourcePath = "/public"
-}
+import visual_interfaces.web.htmlPages.liveArticles.LiveArticleLoader
 
 class JavalinServer {
     
@@ -27,16 +23,8 @@ class JavalinServer {
     internal val app: Javalin by lazy {
         Javalin.create {
             it.server { server }
-            it.addStaticFiles(ServerPaths.publicResourcePath)
+            it.addStaticFiles(CommonBaseUrls.publicResourcePath)
             if (enableDebugging) it.enableDevLogging()
-        }
-    }
-    
-    internal val runtimeState: AppStateFunctions by lazy {
-        AppStateFunctions(
-            // runtime app data class go here
-        ).apply {
-            // do stuff after construction, e.g. restoring state
         }
     }
     
@@ -60,6 +48,7 @@ class JavalinServer {
 }
 
 fun JavalinServer.start() {
+    LiveArticleLoader.beginArticleObservation()
     app.start(IPHelper.preferredPort)
     bindRoutes()
 }
