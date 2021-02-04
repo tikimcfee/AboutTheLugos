@@ -1,15 +1,22 @@
-*Hello*, _world_!
+# *Hello*, _world!_
 
-* Here's one thing.
-* Here's another thing.
-** I've gone and nested this.
+This is the first article I've ever really written on this page.
+It's not a big one, it doesn't have too much fancy stuff if in it,
+in fact, it doesn't even have a good joke in it. But it's all mine!
 
-1. In my case, what if...
-2. and then if...
-    ![What A Mug](0001-hello-world/WhatAMug.jpg)
-3. So clearly...
-4. Profit.
+- No frameworks! (Ok except Javalin...)
+- No JS!
+- No fancy-pants-ultra reactive hyper dockerized mega kube images with auto reloading assets!
 
-# WHAT?
+Just some HTML and CSS. Hopefully, it stays this way for as long as possible. No fancy popups. 
+No magic buttons. No modals. No "presentations". No fancy interactivity.
 
-## YEAH!
+That last part kinda stinks.. but this is a pretty read-only site. I'll do my best to limit
+all the JS stuff to only the pages that absolutely need it to make something work.
+
+Also, here's that same picture of me but in markdown, because if it shows up, things probably,
+generally, are working.
+
+# Seeya!
+
+![What A Mug](0001-hello-world/WhatAMug.jpg)

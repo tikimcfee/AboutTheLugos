@@ -13,6 +13,7 @@ import kotlinx.css.clear
 import kotlinx.css.color
 import kotlinx.css.content
 import kotlinx.css.display
+import kotlinx.css.fontFamily
 import kotlinx.css.fontSize
 import kotlinx.css.height
 import kotlinx.css.left
@@ -37,6 +38,7 @@ import visual_interfaces.web.htmlComponents.ComponentClasses.Shared.staticNaviga
 import visual_interfaces.web.htmlComponents.ComponentClasses.Shared.staticNavigationBarAnchorCurrent
 import visual_interfaces.web.htmlComponents.ComponentClasses.Shared.staticNavigationBarAnchorOther
 import visual_interfaces.web.htmlComponents.ComponentClasses.Shared.staticSideBarAnchorHover
+import visual_interfaces.web.htmlComponents.ComponentClasses.Shared.topContentContainer
 import visual_interfaces.web.htmlComponents.NamedRules
 import visual_interfaces.web.htmlComponents.addClass
 
@@ -48,6 +50,12 @@ fun CSSBuilder.globalStyleBuilder() {
 
     // Sidebar
     val sidebarHeight = 56.px
+
+    addClass(topContentContainer) {
+        backgroundColor = ColorPalette.defaultPageBackgroundColor
+        color = ColorPalette.defaultTextColor
+        fontFamily = "Arial, sans serif"
+    }
 
     addClass(staticNavigationBar) {
         height = sidebarHeight
@@ -85,7 +93,7 @@ fun CSSBuilder.globalStyleBuilder() {
         marginTop = sidebarHeight + 8.px
         marginLeft = auto
         marginRight = auto
-        width = 87.pct
+        width = 67.pct
     }
 
     // -- Media --
@@ -94,4 +102,17 @@ fun CSSBuilder.globalStyleBuilder() {
             width = 95.pct
         }
     }
+}
+
+object ColorPalette {
+    val defaultTextColor =
+       Color("#cccccc")
+    val defaultPageBackgroundColor =
+       Color("#121212")
+
+    val articleListLinkContainerBorder =
+       Color("#444444")
+    val articleListLinkColor =
+       Color("#6071a0")
+
 }

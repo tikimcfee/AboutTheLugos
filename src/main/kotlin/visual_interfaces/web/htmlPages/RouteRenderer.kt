@@ -9,6 +9,7 @@ import visual_interfaces.web.htmlComponents.SimpleHTML.meta
 import visual_interfaces.web.htmlComponents.SimpleHTML.setAttribute
 import visual_interfaces.web.htmlComponents.Tag
 import visual_interfaces.web.htmlPages.staticPages.aboutPageStyles
+import visual_interfaces.web.htmlPages.staticPages.articleListPageStyles
 import visual_interfaces.web.htmlPages.staticPages.makeAboutPageContent
 import visual_interfaces.web.htmlPages.staticPages.makeArticleContent
 import visual_interfaces.web.htmlPages.staticPages.makeArticleListContent
@@ -60,6 +61,7 @@ private fun inSharedPageFrame(
         }
 
         body {
+            setCssClasses(Shared.topContentContainer)
             div {
                 setCssClasses(Shared.staticNavigationBar)
                 RouteRenderer.navigationRoutes.forEach { route ->
@@ -88,7 +90,7 @@ private val Route.styleBuilder: CSSBuilder.() -> Unit
     get() = when (this) {
         Route.Root -> { {} } // empty css builder
         Route.Home -> { {} } // empty css builder
-        Route.ArticleList -> { {} } // empty css builder
+        Route.ArticleList -> articleListPageStyles
         Route.About -> aboutPageStyles
         Route.SingleArticle -> { {} } // empty css builder
     }

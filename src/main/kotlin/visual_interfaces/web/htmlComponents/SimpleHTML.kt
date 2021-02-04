@@ -1,6 +1,5 @@
 package visual_interfaces.web.htmlComponents
 
-import kotlinx.css.CSSBuilder
 import visual_interfaces.web.htmlPages.FormParam
 import visual_interfaces.web.javalinRouting.Route
 
@@ -234,6 +233,21 @@ object SimpleHTML {
         setAttribute("href", href)
         text(linkText)
         extra?.let { it() }
+    }
+
+    fun Tag.spannedLink(
+        href: String,
+        linkText: String,
+        spanBuilder: (Span.() -> Unit)? = null,
+        anchorBuilder: (Anchor.() -> Unit)? = null
+    ) = anchor {
+        span {
+            setAttribute("style", "display: block;")
+            spanBuilder?.let { it() }
+            text(linkText)
+        }
+        setAttribute("href", href)
+        anchorBuilder?.let { it() }
     }
     
     // ------------------------------------

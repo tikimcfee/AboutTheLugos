@@ -11,6 +11,8 @@ object ComponentClasses {
         const val staticNavigationBarAnchorCurrent = "static-side-bar-current"
         const val staticNavigationBarAnchorOther = "static-side-bar-other"
         const val staticSideBarAnchorHover = "static-side-bar a:hover"
+
+        const val topContentContainer = "top-level-content-container"
     }
 
     object MainPage {
@@ -20,6 +22,14 @@ object ComponentClasses {
     object AboutPage {
         const val devImageWrapper = "about-page-image-wrapper"
         const val devImage = "main-page-dev-image"
+    }
+
+    object ArticleList {
+        const val headsUpHeader = "article-list-heads-up-header"
+        const val link = "article-list-article-link"
+        const val linkHover = "article-list-article-link:hover"
+        const val linkVisited = "article-list-article-link:visited"
+        const val linkContainer = "article-list-article-link-container"
     }
 }
 
