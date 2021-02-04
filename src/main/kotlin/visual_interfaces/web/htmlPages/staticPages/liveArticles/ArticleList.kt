@@ -47,10 +47,6 @@ fun Tag.makeArticleListContent() {
     h3 { text("Index of Readable Things") }
     h4 { text("I wrote this stuff for some reason. Feel free to consume the media.") }
 
-    fun Tag.addLink(article: ArticleFile) {
-
-    }
-
     with(LiveArticleLoader) {
         articleList.forEach { article ->
             div {

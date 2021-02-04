@@ -8,15 +8,24 @@ import visual_interfaces.web.htmlComponents.SimpleHTML.text
 import visual_interfaces.web.htmlComponents.Tag
 import visual_interfaces.web.htmlPages.MarkdownReader
 import visual_interfaces.web.htmlPages.staticPages.liveArticles.LiveArticleLoader
+import visual_interfaces.web.javalinRouting.Route
 
 fun Tag.makeArticleContent(context: Context) {
    setCssClasses(ComponentClasses.MainPage.mainBodyWrapper)
 
-   with(LiveArticleLoader) { with(MarkdownReader) {
-      loadArticleMarkdown(context) {
-         div {
-            text(createRawHtmlFromMarkdown(it))
-         }
+   with(LiveArticleLoader) {
+      with(MarkdownReader) {
+         loadArticleMarkdown(context,
+            {
+               div {
+                  text(createRawHtmlFromMarkdown(it))
+               }
+            },
+            {
+               println(it)
+               context.redirect(Route.ArticleList.path)
+            }
+         )
       }
-   } }
+   }
 }

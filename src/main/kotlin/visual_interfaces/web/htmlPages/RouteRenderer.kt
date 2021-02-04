@@ -28,11 +28,11 @@ object RouteRenderer {
         renderHtml(
            inSharedPageFrame(route) {
                when (route) {
-                   Route.Root -> { }
                    Route.Home -> makeHomePageContent()
                    Route.About -> makeAboutPageContent()
                    Route.ArticleList -> makeArticleListContent()
                    Route.SingleArticle -> makeArticleContent(this@renderPageAt)
+                   else -> { }
                }
            }
         )
@@ -84,11 +84,9 @@ fun Html.setMetaData() {
 
 private val Route.styleBuilder: CSSBuilder.() -> Unit
     get() = when (this) {
-        Route.Root -> { {} } // empty css builder
-        Route.Home -> { {} } // empty css builder
         Route.ArticleList -> articleListPageStyles
         Route.About -> aboutPageStyles
-        Route.SingleArticle -> { {} } // empty css builder
+        else -> { {} } // empty css builder
     }
 
 private val Route.displayName: String
@@ -97,7 +95,7 @@ private val Route.displayName: String
         Route.About -> "About"
         Route.ArticleList -> "Articles"
         Route.SingleArticle -> "Single Article"
-        Route.Root -> "Root"
+        Route.Root -> "root - r u a wizrd?"
     }
 
 private fun Route.anchorSelectionClass(

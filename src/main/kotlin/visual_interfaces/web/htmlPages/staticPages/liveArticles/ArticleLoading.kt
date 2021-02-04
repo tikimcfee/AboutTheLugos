@@ -23,15 +23,19 @@ object LiveArticleLoader {
       loadingThread.start()
    }
 
-   fun loadArticleMarkdown(context: Context, markdownReceiver: (String) -> Unit) {
+   fun loadArticleMarkdown(
+      context: Context,
+      markdownReceiver: (String) -> Unit,
+      articleLoadFailureReceiver: (Exception) -> Unit
+   ) {
       val articleIdParam = context.pathParam("articleid")
       if (articleIdParam.isBlank()) {
-         println("No articleid for $context")
+         articleLoadFailureReceiver(IllegalArgumentException("No articleid for ${context.path()}"))
          return
       }
       articleMap[articleIdParam]?.readArticleContents()?.let {
          markdownReceiver(it)
-      } ?: println("Failed to load markdown for $context")
+      } ?: articleLoadFailureReceiver(IllegalArgumentException("No articleid for ${context.path()}"))
    }
 }
 
