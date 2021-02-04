@@ -9,10 +9,10 @@ import visual_interfaces.web.htmlComponents.SimpleHTML.meta
 import visual_interfaces.web.htmlComponents.SimpleHTML.setAttribute
 import visual_interfaces.web.htmlComponents.Tag
 import visual_interfaces.web.htmlPages.staticPages.aboutPageStyles
-import visual_interfaces.web.htmlPages.staticPages.articleListPageStyles
+import visual_interfaces.web.htmlPages.staticPages.liveArticles.articleListPageStyles
 import visual_interfaces.web.htmlPages.staticPages.makeAboutPageContent
-import visual_interfaces.web.htmlPages.staticPages.makeArticleContent
-import visual_interfaces.web.htmlPages.staticPages.makeArticleListContent
+import visual_interfaces.web.htmlPages.staticPages.liveArticles.makeArticleContent
+import visual_interfaces.web.htmlPages.staticPages.liveArticles.makeArticleListContent
 import visual_interfaces.web.htmlPages.staticPages.makeHomePageContent
 import visual_interfaces.web.javalinRouting.Route
 
@@ -31,12 +31,8 @@ object RouteRenderer {
                    Route.Root -> { }
                    Route.Home -> makeHomePageContent()
                    Route.About -> makeAboutPageContent()
-                   Route.ArticleList -> {
-                       makeArticleListContent()
-                   }
-                   Route.SingleArticle -> {
-                       makeArticleContent(this@renderPageAt)
-                   }
+                   Route.ArticleList -> makeArticleListContent()
+                   Route.SingleArticle -> makeArticleContent(this@renderPageAt)
                }
            }
         )

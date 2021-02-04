@@ -4,7 +4,7 @@ import io.javalin.Javalin
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.server.ServerConnector
 import visual_interfaces.web.htmlPages.RouteRenderer
-import visual_interfaces.web.htmlPages.liveArticles.LiveArticleLoader
+import visual_interfaces.web.htmlPages.staticPages.liveArticles.LiveArticleLoader
 
 class JavalinServer {
     

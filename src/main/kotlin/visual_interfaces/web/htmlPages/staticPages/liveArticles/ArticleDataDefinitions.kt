@@ -1,4 +1,4 @@
-package visual_interfaces.web.htmlPages.liveArticles
+package visual_interfaces.web.htmlPages.staticPages.liveArticles
 
 import kotlinx.serialization.Serializable
 import java.io.IOException
@@ -10,7 +10,8 @@ import kotlin.streams.toList
 @Serializable
 data class ArticleMeta(
    val name: String,
-   val id: String
+   val id: String,
+   val summary: String
 )
 
 data class ArticleFile(

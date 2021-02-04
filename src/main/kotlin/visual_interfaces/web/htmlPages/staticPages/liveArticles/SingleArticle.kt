@@ -1,4 +1,4 @@
-package visual_interfaces.web.htmlPages.staticPages
+package visual_interfaces.web.htmlPages.staticPages.liveArticles
 
 import io.javalin.http.Context
 import visual_interfaces.web.htmlComponents.ComponentClasses
@@ -7,7 +7,7 @@ import visual_interfaces.web.htmlComponents.SimpleHTML.setCssClasses
 import visual_interfaces.web.htmlComponents.SimpleHTML.text
 import visual_interfaces.web.htmlComponents.Tag
 import visual_interfaces.web.htmlPages.MarkdownReader
-import visual_interfaces.web.htmlPages.liveArticles.LiveArticleLoader
+import visual_interfaces.web.htmlPages.staticPages.liveArticles.LiveArticleLoader
 
 fun Tag.makeArticleContent(context: Context) {
    setCssClasses(ComponentClasses.MainPage.mainBodyWrapper)

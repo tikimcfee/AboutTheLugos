@@ -243,8 +243,8 @@ object SimpleHTML {
     ) = anchor {
         span {
             setAttribute("style", "display: block;")
-            spanBuilder?.let { it() }
             text(linkText)
+            spanBuilder?.let { it() }
         }
         setAttribute("href", href)
         anchorBuilder?.let { it() }

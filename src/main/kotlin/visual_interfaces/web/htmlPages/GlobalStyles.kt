@@ -96,7 +96,7 @@ fun CSSBuilder.globalStyleBuilder() {
         width = 67.pct
     }
 
-    // -- Media --
+    // Media selectors
     rule("@media only screen and (max-width: 800px)") {
         addClass(mainBodyWrapper) {
             width = 95.pct
@@ -109,10 +109,8 @@ object ColorPalette {
        Color("#cccccc")
     val defaultPageBackgroundColor =
        Color("#121212")
-
     val articleListLinkContainerBorder =
        Color("#444444")
     val articleListLinkColor =
        Color("#6071a0")
-
 }

@@ -1,4 +1,4 @@
-package visual_interfaces.web.htmlPages.liveArticles
+package visual_interfaces.web.htmlPages.staticPages.liveArticles
 
 import io.javalin.http.Context
 import kotlinx.serialization.decodeFromString

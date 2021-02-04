@@ -1,4 +1,5 @@
 {
   "id": "hello-world",
-  "name": "Hello, world!"
+  "name": "Hello, world!",
+  "summary": "It's exactly what you expect."
 }
