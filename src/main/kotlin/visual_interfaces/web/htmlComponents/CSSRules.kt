@@ -29,6 +29,7 @@ object ComponentClasses {
         const val link = "article-list-article-link"
         const val linkHover = "article-list-article-link:hover"
         const val linkVisited = "article-list-article-link:visited"
+        const val linkVisitedHover = "article-list-article-link:visited:hover"
         const val linkContainer = "article-list-article-link-container"
         const val linkSummary = "article-list-article-link-summary"
     }

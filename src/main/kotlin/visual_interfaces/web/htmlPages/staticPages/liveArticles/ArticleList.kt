@@ -27,6 +27,7 @@ import visual_interfaces.web.htmlComponents.ComponentClasses.ArticleList.linkCon
 import visual_interfaces.web.htmlComponents.ComponentClasses.ArticleList.linkHover
 import visual_interfaces.web.htmlComponents.ComponentClasses.ArticleList.linkSummary
 import visual_interfaces.web.htmlComponents.ComponentClasses.ArticleList.linkVisited
+import visual_interfaces.web.htmlComponents.ComponentClasses.ArticleList.linkVisitedHover
 import visual_interfaces.web.htmlComponents.SimpleHTML
 import visual_interfaces.web.htmlComponents.SimpleHTML.div
 import visual_interfaces.web.htmlComponents.SimpleHTML.h3
@@ -78,6 +79,9 @@ val articleListPageStyles: CSSBuilder.() -> Unit = {
     }
     addClass(linkVisited) {
         color = gray
+    }
+    addClass(linkVisitedHover) {
+        color = white
     }
     addClass(linkContainer) {
         margin = "4px"
