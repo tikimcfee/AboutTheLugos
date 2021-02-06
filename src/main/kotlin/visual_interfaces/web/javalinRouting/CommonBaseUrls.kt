@@ -1,8 +1,22 @@
 package visual_interfaces.web.javalinRouting
 
+import java.nio.file.Paths
+
 object CommonBaseUrls {
     val root: String = IPHelper.root
-    const val publicResourcePath = "/public"
+
+    val publicResourcePath =
+       System.getProperty("user.dir")
+          .let { Paths.get(it) }
+          .resolve("public")
+          .toAbsolutePath()
+          .toString()
+
+    // This needs to load dynamically somehow... oof.
+    // Or just serve the thing properly. Either way.
+    const val acmeWellKnownPath = "/.well-known/acme-challenge/:id"
+    const val acmeWellKnownPathId = "id"
+    const val acmePersonalId = "DZUjlzB8RL8iBxOmvenqRYI_zhdXJYy8Ic1Z5hf6PlM"
 }
 
 enum class Route(

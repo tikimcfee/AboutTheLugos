@@ -3,13 +3,13 @@ package visual_interfaces.web.javalinRouting
 import visual_interfaces.web.htmlPages.MarkdownReader
 
 fun main(args: Array<String>) {
-    when {
-        args.contains("test-things") ->
-            TestingWrapper.testTheThings()
-        else ->
-            JavalinServer().start()
-    }
-
+//    when {
+//        args.contains("test-things") ->
+//            TestingWrapper.testTheThings()
+//        else ->
+//            JavalinServer().start()
+//    }
+    JavalinServer().start()
 }
 
 object TestingWrapper {

@@ -5,6 +5,7 @@ import java.io.IOException
 import java.nio.file.FileSystems
 import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.Paths
 import kotlin.streams.toList
 
 @Serializable
@@ -29,14 +30,11 @@ fun ArticleFile.readArticleContents(): String {
 }
 
 object ArticleFileSystemTools {
-   // More environment arg stuff
-   private val articleDirectory = arrayOf(
-      "src", "main", "resources", "public", "articles"
-   )
-
    private fun mainArticleContainerDirectories() =
-      FileSystems.getDefault()
-         .getPath("", *articleDirectory)
+      System.getProperty("user.dir")
+         .let { Paths.get(it) }
+         .resolve("public")
+         .resolve("articles")
          .let { Files.list(it) }
          .filter { it.toFile().isDirectory }
 
