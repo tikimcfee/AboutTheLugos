@@ -311,3 +311,20 @@ So you run it and...
 ```
 
 WE HAVE HTTPS!
+
+---
+
+# BUT IT DOESN'T RUN ON THE RASPBERRY PI!
+
+---
+
+So it turns out the underlying deep, deep, deep magiks that run through this server include something
+called Conscrypt, which is some kind of SSL context provider thing that does really incredibly important
+stuff and it wasn't built to run on arm32. Which my Pi is.
+
+All of this to include better security on my tiny boxy but this lib chain doesn't support arm32 by
+default. Apparently I'm allowed to build it myself for arm32...
+
+It may be time to just get a different box to run on. Or, perhaps... a.. different server backend?...
+
+Wow... how lame...

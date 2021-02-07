@@ -34,7 +34,6 @@ dependencies {
     implementation("org.slf4j:slf4j-api:$slf4jVersion")
     implementation("org.slf4j:slf4j-simple:$slf4jVersion")
 
-
     // Serialization and networking glue
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
@@ -48,7 +47,6 @@ dependencies {
     implementation("org.jetbrains:kotlin-css:1.0.0-pre.144-kotlin-1.4.21")
     implementation("org.jetbrains:markdown-jvm:0.2.0.pre-61")
     implementation("org.jetbrains:markdown:0.2.0.pre-61")
-
 }
 
 application {
@@ -68,7 +66,15 @@ val fatJar = task("fatJar", type = Jar::class) {
     )
     
     exclude(
-        "**/*.kotlin_metadata"
+        // Something about metadata before with jars ...
+        "**/*.kotlin_metadata",
+
+        // Remove signatures from jar when including transitive dependencies
+        "META-INF/.SF",
+        "META-INF/.RSA",
+        "META-INF/*SF"
+
+        // Remove all kotlin included modules / builtins; whatever those are
 //        "**/*.kotlin_module",
 //        "**/*.kotlin_builtins"
     )
