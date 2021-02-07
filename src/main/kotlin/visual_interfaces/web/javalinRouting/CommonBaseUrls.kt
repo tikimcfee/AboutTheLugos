@@ -3,7 +3,7 @@ package visual_interfaces.web.javalinRouting
 import java.nio.file.Paths
 
 object CommonBaseUrls {
-    val root: String = IPHelper.root
+    val root: String = IPHelper.unsafeRoot
 
     val publicResourcePath =
        System.getProperty("user.dir")

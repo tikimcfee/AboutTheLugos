@@ -2,13 +2,16 @@ package visual_interfaces.web.javalinRouting
 
 import io.javalin.Javalin
 import io.javalin.http.staticfiles.Location
-import org.eclipse.jetty.server.Server
-import org.eclipse.jetty.server.ServerConnector
+import org.eclipse.jetty.alpn.server.ALPNServerConnectionFactory
+import org.eclipse.jetty.http2.HTTP2Cipher
+import org.eclipse.jetty.http2.server.HTTP2ServerConnectionFactory
+import org.eclipse.jetty.server.*
+import org.eclipse.jetty.util.ssl.SslContextFactory
 import visual_interfaces.web.htmlPages.RouteRenderer
 import visual_interfaces.web.htmlPages.staticPages.liveArticles.LiveArticleLoader
-import visual_interfaces.web.javalinRouting.CommonBaseUrls.acmePersonalId
-import visual_interfaces.web.javalinRouting.CommonBaseUrls.acmeWellKnownPath
-import visual_interfaces.web.javalinRouting.CommonBaseUrls.acmeWellKnownPathId
+import visual_interfaces.web.javalinRouting.JavalinServerFilesystemTools.readKeystorePassword
+import java.nio.file.Paths
+
 
 class JavalinServer {
     
@@ -16,11 +19,43 @@ class JavalinServer {
     
     private val server: Server by lazy {
         Server().apply {
-            val defaultConnector = ServerConnector(this).apply {
-                host = IPHelper.localNetworkIp
-                port = IPHelper.preferredPort
+            val httpConfig = HttpConfiguration().apply {
+                sendServerVersion = false
+                secureScheme = IPHelper.encryptedProtocolHttps
+                securePort = IPHelper.preferredEncryptedHttpsPort
             }
-            connectors = arrayOf(defaultConnector)
+            val httpsConfig = HttpConfiguration(httpConfig).apply {
+                addCustomizer(SecureRequestCustomizer())
+            }
+            val sslContextFactory = SslContextFactory.Server().apply {
+                setKeyStorePassword(readKeystorePassword())
+                keyStorePath = JavalinServerFilesystemTools.keystoreFilePath
+                provider = "Conscrypt"
+                cipherComparator = HTTP2Cipher.COMPARATOR
+            }
+
+            // Connection Factories
+            val http2ConnectionFactory = HTTP2ServerConnectionFactory(httpsConfig)
+            val alpnConnectionFactory = ALPNServerConnectionFactory().apply {
+                defaultProtocol = "h2"
+            }
+            val sslConnectionFactory = SslConnectionFactory(
+                sslContextFactory,
+                alpnConnectionFactory.protocol
+            )
+
+            // HTTP/2 Connector
+            val http2Connector = ServerConnector(this,
+                sslConnectionFactory,
+                alpnConnectionFactory,
+                http2ConnectionFactory,
+                HttpConnectionFactory(httpsConfig)
+            ).apply {
+                port = IPHelper.preferredEncryptedHttpsPort
+                host = IPHelper.localNetworkIp
+            }
+
+            addConnector(http2Connector)
         }
     }
     
@@ -61,6 +96,29 @@ class JavalinServer {
 
 fun JavalinServer.start() {
     LiveArticleLoader.beginArticleObservation()
-    app.start(IPHelper.preferredPort)
+    app.start(IPHelper.preferredUnsafeHttpPort)
     bindRoutes()
+}
+
+private object JavalinServerFilesystemTools {
+    val keystoreFilePath =
+       System.getProperty("user.dir")
+          .let { Paths.get(it) }
+          .resolve("certs")
+          .resolve("keystore.jks")
+          .toAbsolutePath()
+          .toString()
+
+    fun readKeystorePassword() = try {
+        System.getProperty("user.dir")
+            .let { Paths.get(it) }
+            .resolve("certs")
+            .resolve("kp")
+            .toFile()
+            .readText()
+            .trim()
+        } catch (exception: Exception) {
+            println(exception)
+            ""
+        }
 }

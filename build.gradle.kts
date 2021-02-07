@@ -20,13 +20,21 @@ repositories {
 }
 
 dependencies {
+    val jettyVersion = "9.4.35.v20201120"
+    val javalinVersion = "3.13.0"
+    val slf4jVersion = "1.7.30"
+
     // Use the Kotlin JDK 8 standard library.
     implementation(kotlin("stdlib-jdk8"))
     
     // - Server -
-    implementation("io.javalin:javalin:3.13.0")
-    implementation("org.slf4j:slf4j-simple:1.7.30")
-    
+    implementation("org.eclipse.jetty.http2:http2-server:$jettyVersion")
+    implementation("org.eclipse.jetty:jetty-alpn-conscrypt-server:$jettyVersion")
+    implementation("io.javalin:javalin:$javalinVersion")
+    implementation("org.slf4j:slf4j-api:$slf4jVersion")
+    implementation("org.slf4j:slf4j-simple:$slf4jVersion")
+
+
     // Serialization and networking glue
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")

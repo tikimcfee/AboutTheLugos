@@ -16,6 +16,8 @@ https://ericdraken.com/individually-styled-markdown-elements/
 > [CertBot, Intro docs](https://certbot.eff.org/docs/intro.html)  
 > [Javalin](https://javalin.io/)
 > [Forbidden Oracle Keytool Tutorial](https://docs.oracle.com/cd/E35976_01/server.740/es_admin/src/tadm_ssl_convert_pem_to_jks.html)
+> [More Keytool Magiks](https://www.thesslstore.com/knowledgebase/ssl-install/jetty-java-http-servlet-webserver-ssl-installation/)
+>
 
 ```shell script
 # I used these to do the stuff on this page
@@ -244,4 +246,68 @@ converted.pkcs12  keystore.jks  truststore.ks
 
 ```
 
-    
+Wow. We have a keystore now. I think a new article would be to automate the above manually. I'm sure
+there are tools, but hey, why not just do it yourself eh? So alright. Now we hop back to our code 
+sample and start changing things around to work for us. I'm planning on using external files instead
+of resources. That's probably a bad idea. Oh well! For now, let's get things fixed from the above 
+sample; *Note: IPHelper is just a constants file*:
+
+```kotlin
+    private val server: Server by lazy {
+        Server().apply {
+            val httpConfig = HttpConfiguration().apply {
+                sendServerVersion = false
+                secureScheme = IPHelper.encryptedProtocolHttps
+                securePort = IPHelper.preferredEncryptedHttpsPort 
+            }
+            val httpsConfig = HttpConfiguration(httpConfig).apply {
+                addCustomizer(SecureRequestCustomizer())
+            }
+            val sslContextFactory = SslContextFactory.Server().apply {
+                // Find a way to read your password securely. I'm doing it from a file.
+                setKeyStorePassword(readKeystorePassword())
+                // Get the path to your keystore somehow. Be sure to test running in different contexts.
+                keyStorePath = YourFileTools.keystoreFilePath
+                provider = "Conscrypt"
+                // This comes from jetty, but this may not actually work
+                cipherComparator = HTTP2Cipher.COMPARATOR
+            }
+
+            // Connection Factories
+            val http2ConnectionFactory = HTTP2ServerConnectionFactory(httpsConfig)
+            val alpnConnectionFactory = ALPNServerConnectionFactory().apply {
+                // More magic constants, love 'em.
+                defaultProtocol = "h2"
+            }
+            val sslConnectionFactory = SslConnectionFactory(
+                sslContextFactory,
+                alpnConnectionFactory.protocol
+            )
+
+            // HTTP/2 Connector
+            val http2Connector = ServerConnector(this,
+                sslConnectionFactory,
+                alpnConnectionFactory,
+                http2ConnectionFactory,
+                HttpConnectionFactory(httpsConfig)
+            ).apply {
+                port = IPHelper.preferredEncryptedHttpsPort
+                // IP You're listening on
+                host = IPHelper.localNetworkIp
+            }
+
+            addConnector(http2Connector)
+        }
+    }
+```
+
+So you run it and... 
+
+```shell script
+[main] INFO org.eclipse.jetty.server.AbstractConnector - Started ServerConnector@6b143ee9{SSL, (ssl, alpn, h2, http/1.1)}{127.0.0.1:8443}
+[main] INFO org.eclipse.jetty.server.Server - Started @814ms
+[main] INFO io.javalin.Javalin - Listening on https://127.0.0.1:8443/
+[main] INFO io.javalin.Javalin - Javalin started in 302ms \o/
+```
+
+WE HAVE HTTPS!
