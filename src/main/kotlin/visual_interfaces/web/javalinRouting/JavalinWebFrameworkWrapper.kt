@@ -1,6 +1,8 @@
 package visual_interfaces.web.javalinRouting
 
 import visual_interfaces.web.htmlPages.MarkdownReader
+import visual_interfaces.web.javalinRouting.serverBuilding.JavalinServerBootstrapper
+import visual_interfaces.web.javalinRouting.serverBuilding.applicationStarted
 
 fun main(args: Array<String>) {
 //    when {
@@ -9,7 +11,7 @@ fun main(args: Array<String>) {
 //        else ->
 //            JavalinServer().start()
 //    }
-    JavalinServer().start()
+    JavalinServerBootstrapper().applicationStarted()
 }
 
 object TestingWrapper {
