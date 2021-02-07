@@ -6,6 +6,8 @@ import org.eclipse.jetty.alpn.server.ALPNServerConnectionFactory
 import org.eclipse.jetty.http2.HTTP2Cipher
 import org.eclipse.jetty.http2.server.HTTP2ServerConnectionFactory
 import org.eclipse.jetty.server.*
+import org.eclipse.jetty.server.handler.HandlerCollection
+import org.eclipse.jetty.server.handler.SecuredRedirectHandler
 import org.eclipse.jetty.util.ssl.SslContextFactory
 import visual_interfaces.web.htmlPages.RouteRenderer
 import visual_interfaces.web.htmlPages.staticPages.liveArticles.LiveArticleLoader
@@ -45,7 +47,8 @@ class JavalinServer {
             )
 
             // HTTP/2 Connector
-            val http2Connector = ServerConnector(this,
+            val http2Connector = ServerConnector(
+                this,
                 sslConnectionFactory,
                 alpnConnectionFactory,
                 http2ConnectionFactory,
@@ -55,6 +58,11 @@ class JavalinServer {
                 host = IPHelper.localNetworkIp
             }
 
+            val defaultConnector = ServerConnector(this).apply {
+                port = IPHelper.preferredUnsafeHttpPort
+                host = IPHelper.localNetworkIp
+            }
+            addConnector(defaultConnector)
             addConnector(http2Connector)
         }
     }
@@ -64,6 +72,17 @@ class JavalinServer {
             it.server { server }
             it.addStaticFiles(CommonBaseUrls.publicResourcePath, Location.EXTERNAL)
             if (enableDebugging) it.enableDevLogging()
+        }.apply {
+            before {
+                println("Request :: ${it.protocol()} :: ${it.path()} :: ${it.url()} }")
+                when (it.protocol()) {
+                    "HTTP/1.1" -> {
+                        val newUrl = it.url().replaceFirst("http", "https")
+                        it.redirect(newUrl, 301) // 301 == "Moved Permanently"
+                    }
+                }
+
+            }
         }
     }
     
@@ -96,7 +115,7 @@ class JavalinServer {
 
 fun JavalinServer.start() {
     LiveArticleLoader.beginArticleObservation()
-    app.start(IPHelper.preferredUnsafeHttpPort)
+    app.start()
     bindRoutes()
 }
 

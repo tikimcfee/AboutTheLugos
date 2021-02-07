@@ -24,7 +24,7 @@ enum class Route(
     val method: String
 ) {
 
-    Root("", "get"),
+    Root("/", "get"),
     Home("home", "get"),
     About("about", "get"),
     ArticleList("articles", "get"),
