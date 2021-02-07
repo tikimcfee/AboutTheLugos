@@ -15,6 +15,7 @@ https://ericdraken.com/individually-styled-markdown-elements/
 > [CertBot, Root](https://certbot.eff.org/)
 > [CertBot, Intro docs](https://certbot.eff.org/docs/intro.html)  
 > [Javalin](https://javalin.io/)
+> [Forbidden Oracle Keytool Tutorial](https://docs.oracle.com/cd/E35976_01/server.740/es_admin/src/tadm_ssl_convert_pem_to_jks.html)
 
 ```shell script
 # I used these to do the stuff on this page
@@ -191,9 +192,56 @@ The general idea is this:
 * `openssl`; "... run the openssl utility from the directory of your choice."
 * `keytool`; "Your path will allow you to use the keytool utility from the directory of your choice."
 * All of the input files are located in the local directory.
+** This part is a lie. You'll have to navigate around directories yourself a bit. Pay attention
+to pathing and domains and such in the sample below.
 
 Let's begin.
 
 ```shell script
+# Alias to wherever CertBot dropped your keys
+$ DOMAIN="etc/letsencrypt/live/$YOUR_DOMAIN"
+
+# I highly recommend trying this to make sure you see something
+$ sudo cat $DOMAIN/fullchain.pem
+
+# Here's the magic. You need both the private key and the fullchain certificate to create a
+# properly packaged pkcs12. It'll have some  
+$ sudo openssl pkcs12 -export -in $DOMAIN/fullchain.pem -inkey $DOMAIN/privkey.pem -out converted.pkcs12
+
+# At the point, the docs say this. If I had any hope before, it is washed away now.
+#   Create and then delete an empty truststore using the following commands:
+#   keytool -genkey -keyalg RSA -alias endeca -keystore truststore.ks
+#   keytool -delete -alias endeca -keystore truststore.ks
+# Why do we need to do this? Was something being initialized? WHO KNOWS!? ONLY THE UNSPOKEN ONE!
+# Do it and follow all the instructions. Tab through the names and make sure you delete the right alias.
+$ keytool -genkey -keyalg RSA -alias letsencrypt-ca -keystore truststore.ks
+$ keytool -delete -alias letsencrypt-ca -keystore truststore.ks
+
+# Well here's more magic commands
+#   keytool -import -v -trustcacerts -alias endeca-ca -file eneCA.pem -keystore truststore.ks
+# Our version looks something like:
+$ sudo keytool -import -v -trustcacerts -alias letsencrypt-ca -file $DOMAIN/fullchain.pem -keystore truststore.ks
+[...]
+Trust this certificate? [no]:  yes
+Certificate was added to keystore
+[Storing truststore.ks]
+
+# More magic initialization stuff; I suppose it's creating a new record? Magic...
+$ keytool -genkey -keyalg RSA -alias letsencrypt-ca -keystore keystore.jks
+$ keytool -delete -alias letsencrypt-ca -keystore keystore.jks
+
+# Alright... here we go...
+$ keytool -v -importkeystore -srckeystore converted.pkcs12 -srcstoretype PKCS12 -destkeystore keystore.jks -deststoretype JKS
+Importing keystore converted.pkcs12 to keystore.jks...
+Enter destination keystore password:
+Enter source keystore password:
+Entry for alias 1 successfully imported.
+Import command completed:  1 entries successfully imported, 0 entries failed or cancelled
+[Storing keystore.jks]
+
+$ ls
+converted.pkcs12  keystore.jks  truststore.ks
 
 ```
+
+    
